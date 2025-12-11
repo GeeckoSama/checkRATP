@@ -97,28 +97,14 @@ export default class MetroController {
     const problems = transportService.getActiveIncidents(incidents, validIds)
 
     if (problems.length > 0) {
-      return response.json({
-        alert: true,
-        requestedLines: lineNames,
-        lineIds: validIds,
-        count: problems.length,
-        details: problems.map((p) => ({
-          id: p.id,
-          title: p.title,
-          severity: p.severity,
-          cause: p.cause,
-          message: p.message,
-          impactedSections: p.impactedSections,
-        })),
+      // Construire un message avec tous les incidents
+      const messages = problems.map((p) => {
+        return `${p.title}: ${p.message}`
       })
+      return response.send(messages.join('\n\n'))
     }
 
-    return response.json({
-      alert: false,
-      requestedLines: lineNames,
-      lineIds: validIds,
-      message: 'Trafic fluide sur toutes les lignes demandées',
-    })
+    return response.send('Trafic fluide sur toutes les lignes demandées')
   }
 
   public async listLines({ response }: HttpContext) {
