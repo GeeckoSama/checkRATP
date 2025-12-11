@@ -1,0 +1,54 @@
+# Dependencies and AdonisJS build
+node_modules
+build
+tmp
+dist
+.output
+
+# Secrets
+.env
+.env.local
+.env.production
+.env.production.local
+.env.development.local
+
+# Frontend assets compiled code
+public/assets
+
+# Build tools specific
+npm-debug.log
+yarn-error.log
+yarn.lock
+pnpm-lock.yaml
+package-lock.json
+
+# Test coverage
+coverage
+.nyc_output
+
+# Logs
+logs
+*.log
+pino-*.log
+
+# Editors specific
+.fleet
+.idea
+.vscode
+*.swp
+*.swo
+*~
+.vim
+.cache
+
+# Platform specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker (optional - uncomment if you don't want to version these)
+# docker-compose.override.yml
+
+# Temporary files
+.tmp
+.temp
