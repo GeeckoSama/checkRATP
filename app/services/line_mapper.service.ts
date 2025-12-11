@@ -26,12 +26,32 @@ export class LineMapperService {
   }
 
   /**
+   * Mapping des lignes RER vers leurs IDs IDFM officiels
+   * Format IDFM: C01XXX
+   */
+  private static readonly RER_LINES: Record<string, string> = {
+    a: 'C01742',
+    b: 'C01743',
+    c: 'C01727',
+    d: 'C01728',
+    e: 'C01729',
+  }
+
+  /**
+   * Tous les mappings combinés (métro + RER)
+   */
+  private static readonly ALL_LINES: Record<string, string> = {
+    ...LineMapperService.METRO_LINES,
+    ...LineMapperService.RER_LINES,
+  }
+
+  /**
    * Convertit un nom de ligne simple en ID IDFM
-   * @param lineName Nom simple de la ligne (ex: "8", "12", "3bis")
+   * @param lineName Nom simple de la ligne (ex: "8", "12", "3bis", "a", "b")
    * @returns L'ID IDFM correspondant ou undefined si non trouvé
    */
   public getLineId(lineName: string): string | undefined {
-    return LineMapperService.METRO_LINES[lineName.toLowerCase()]
+    return LineMapperService.ALL_LINES[lineName.toLowerCase()]
   }
 
   /**
@@ -66,12 +86,19 @@ export class LineMapperService {
   }
 
   /**
-   * Retourne la liste de toutes les lignes disponibles
+   * Retourne la liste de toutes les lignes disponibles (métro + RER)
    */
-  public getAvailableLines(): Array<{ name: string; id: string }> {
-    return Object.entries(LineMapperService.METRO_LINES).map(([name, id]) => ({
+  public getAvailableLines(): Array<{ name: string; id: string; type: string }> {
+    const metro = Object.entries(LineMapperService.METRO_LINES).map(([name, id]) => ({
       name,
       id,
+      type: 'metro',
     }))
+    const rer = Object.entries(LineMapperService.RER_LINES).map(([name, id]) => ({
+      name: name.toUpperCase(),
+      id,
+      type: 'rer',
+    }))
+    return [...metro, ...rer]
   }
 }
