@@ -8,13 +8,23 @@ export class TransportService {
    * @param targetLineIds Tableau des IDs IDFM des lignes (ex: ['C01378', 'C01382'])
    */
   public getActiveIncidents(incidents: TransportIncident[], targetLineIds: string[]) {
+    // 1. Obtenir la date actuelle formatée YYYYMMDDTHHmmss en timezone Europe/Paris
+    // IMPORTANT: L'API RATP utilise l'heure locale de Paris, pas UTC
+    const now = new Date()
+      .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
+      .replace(/[-:\s]/g, '')
+      .replace('T', '')
+      .substring(0, 15) // YYYYMMDDTHHmmss
+
+    const nowReadable = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' })
+
     logger.debug('Filtering incidents', {
       totalIncidents: incidents.length,
       targetLineIds,
+      now,
+      nowReadable,
+      timezone: 'Europe/Paris',
     })
-
-    // 1. Obtenir la date actuelle formatée YYYYMMDDTHHmmss pour comparaison
-    const now = new Date().toISOString().replace(/[-:]/g, '').split('.')[0]
 
     const filteredIncidents = incidents.filter((incident) => {
       // Vérification 1 : L'incident est-il actif en ce moment ?
@@ -23,19 +33,47 @@ export class TransportService {
       )
 
       if (!isActive) {
-        logger.debug('Incident not active', { incidentId: incident.id })
+        logger.debug('Incident not active', {
+          incidentId: incident.id,
+          title: incident.title,
+          now,
+          applicationPeriods: incident.applicationPeriods,
+        })
         return false
       }
 
       // Vérification 2 : L'incident concerne-t-il une de mes lignes ?
       // On regarde dans impactedSections
-      const affectsMyLine = incident.impactedSections?.some((section) =>
+
+      // Cas 1: impactedSections est absent ou vide
+      if (!incident.impactedSections || incident.impactedSections.length === 0) {
+        logger.warn('Incident has no impactedSections', {
+          incidentId: incident.id,
+          title: incident.title,
+          severity: incident.severity,
+        })
+        return false
+      }
+
+      // Cas 2: vérifier si une des sections correspond à nos lignes
+      const affectsMyLine = incident.impactedSections.some((section) =>
         targetLineIds.some((targetId) => section.lineId.includes(targetId))
       )
 
       if (!affectsMyLine) {
         logger.debug('Incident does not affect target lines', {
           incidentId: incident.id,
+          title: incident.title,
+          impactedLineIds: incident.impactedSections.map((s) => s.lineId),
+          targetLineIds,
+        })
+      } else {
+        logger.info('Active incident found affecting target lines', {
+          incidentId: incident.id,
+          title: incident.title,
+          severity: incident.severity,
+          impactedLineIds: incident.impactedSections.map((s) => s.lineId),
+          targetLineIds,
         })
       }
 
