@@ -1,3 +1,4 @@
+import logger from '@adonisjs/core/services/logger'
 import type { TransportIncident } from '../types/transport.type.js'
 
 export class TransportService {
@@ -7,16 +8,24 @@ export class TransportService {
    * @param targetLineIds Tableau des IDs IDFM des lignes (ex: ['C01378', 'C01382'])
    */
   public getActiveIncidents(incidents: TransportIncident[], targetLineIds: string[]) {
+    logger.debug('Filtering incidents', {
+      totalIncidents: incidents.length,
+      targetLineIds,
+    })
+
     // 1. Obtenir la date actuelle formatée YYYYMMDDTHHmmss pour comparaison
     const now = new Date().toISOString().replace(/[-:]/g, '').split('.')[0]
 
-    return incidents.filter((incident) => {
+    const filteredIncidents = incidents.filter((incident) => {
       // Vérification 1 : L'incident est-il actif en ce moment ?
       const isActive = incident.applicationPeriods.some(
         (period) => now >= period.begin && now <= period.end
       )
 
-      if (!isActive) return false
+      if (!isActive) {
+        logger.debug('Incident not active', { incidentId: incident.id })
+        return false
+      }
 
       // Vérification 2 : L'incident concerne-t-il une de mes lignes ?
       // On regarde dans impactedSections
@@ -24,7 +33,21 @@ export class TransportService {
         targetLineIds.some((targetId) => section.lineId.includes(targetId))
       )
 
+      if (!affectsMyLine) {
+        logger.debug('Incident does not affect target lines', {
+          incidentId: incident.id,
+        })
+      }
+
       return affectsMyLine
     })
+
+    logger.info('Incidents filtered', {
+      original: incidents.length,
+      filtered: filteredIncidents.length,
+      targetLineIds,
+    })
+
+    return filteredIncidents
   }
 }

@@ -1,3 +1,5 @@
+import logger from '@adonisjs/core/services/logger'
+
 /**
  * Service de cache simple en mémoire avec expiration
  */
@@ -11,15 +13,18 @@ export class CacheService {
     const entry = this.cache.get(key)
 
     if (!entry) {
+      logger.debug('Cache miss', { key })
       return null
     }
 
     // Vérifier si le cache a expiré
     if (Date.now() > entry.expiresAt) {
+      logger.debug('Cache expired', { key })
       this.cache.delete(key)
       return null
     }
 
+    logger.debug('Cache hit', { key })
     return entry.data as T
   }
 
@@ -29,6 +34,7 @@ export class CacheService {
   public set(key: string, data: any, ttlSeconds: number): void {
     const expiresAt = Date.now() + ttlSeconds * 1000
     this.cache.set(key, { data, expiresAt })
+    logger.debug('Cache set', { key, ttlSeconds })
   }
 
   /**
@@ -36,13 +42,16 @@ export class CacheService {
    */
   public delete(key: string): void {
     this.cache.delete(key)
+    logger.debug('Cache delete', { key })
   }
 
   /**
    * Vide tout le cache
    */
   public clear(): void {
+    const size = this.cache.size
     this.cache.clear()
+    logger.info('Cache cleared', { entriesCleared: size })
   }
 
   /**
@@ -50,10 +59,15 @@ export class CacheService {
    */
   public cleanup(): void {
     const now = Date.now()
+    let cleaned = 0
     for (const [key, entry] of this.cache.entries()) {
       if (now > entry.expiresAt) {
         this.cache.delete(key)
+        cleaned++
       }
+    }
+    if (cleaned > 0) {
+      logger.debug('Cache cleanup completed', { entriesCleaned: cleaned })
     }
   }
 }

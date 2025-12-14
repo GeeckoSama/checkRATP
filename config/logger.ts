@@ -18,7 +18,33 @@ const loggerConfig = defineConfig({
         targets: targets()
           .pushIf(!app.inProduction, targets.pretty())
           .pushIf(app.inProduction, targets.file({ destination: 1 }))
+          .push({
+            target: 'pino/file',
+            level: 'debug',
+            options: {
+              destination: './storage/logs/app.log',
+              mkdir: true,
+            },
+          })
           .toArray(),
+      },
+      /**
+       * Redaction pour cacher les données sensibles dans les logs
+       */
+      redact: {
+        paths: [
+          'password',
+          'apiKey',
+          'apikey',
+          'RATP_API_KEY',
+          'token',
+          'authorization',
+          'creditCard',
+          '*.password',
+          '*.apiKey',
+          '*.token',
+        ],
+        remove: false,
       },
     },
   },
