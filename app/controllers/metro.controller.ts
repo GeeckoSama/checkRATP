@@ -74,7 +74,8 @@ export default class MetroController {
         // Appel à l'API RATP/IDFM
         const apiResponse = await fetch(apiUrl, {
           headers: {
-            apikey: apiKey,
+            'apikey': apiKey,
+            'Accept-Language': 'fr',
           },
         })
 

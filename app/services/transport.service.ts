@@ -10,11 +10,11 @@ export class TransportService {
   public getActiveIncidents(incidents: TransportIncident[], targetLineIds: string[]) {
     // 1. Obtenir la date actuelle formatée YYYYMMDDTHHmmss en timezone Europe/Paris
     // IMPORTANT: L'API RATP utilise l'heure locale de Paris, pas UTC
+    // Le format doit inclure un 'T' entre la date et l'heure pour correspondre au format de l'API
     const now = new Date()
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15) // YYYYMMDDTHHmmss
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T') // YYYYMMDDTHHmmss
 
     const nowReadable = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' })
 
