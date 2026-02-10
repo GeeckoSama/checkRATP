@@ -9,22 +9,19 @@ test.group('TransportService - getActiveIncidents', () => {
     // Créer un timestamp actuel en format YYYYMMDDTHHmmss (Europe/Paris)
     const now = new Date()
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     // Créer des timestamps pour un incident actif (maintenant ± 1 heure)
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const oneHourLater = new Date(Date.now() + 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const incidents: TransportIncident[] = [
       {
@@ -60,15 +57,13 @@ test.group('TransportService - getActiveIncidents', () => {
     // Créer un incident futur (commence dans 2 heures)
     const twoHoursLater = new Date(Date.now() + 2 * 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const threeHoursLater = new Date(Date.now() + 3 * 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const incidents: TransportIncident[] = [
       {
@@ -103,15 +98,13 @@ test.group('TransportService - getActiveIncidents', () => {
     // Créer un incident passé (terminé il y a 1 heure)
     const threeHoursAgo = new Date(Date.now() - 3 * 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const incidents: TransportIncident[] = [
       {
@@ -145,21 +138,18 @@ test.group('TransportService - getActiveIncidents', () => {
 
     const now = new Date()
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const oneHourLater = new Date(Date.now() + 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const incidents: TransportIncident[] = [
       {
@@ -196,21 +186,18 @@ test.group('TransportService - getActiveIncidents', () => {
 
     const now = new Date()
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const oneHourLater = new Date(Date.now() + 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const incidents: TransportIncident[] = [
       {
@@ -260,21 +247,18 @@ test.group('TransportService - getActiveIncidents', () => {
 
     const now = new Date()
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const oneHourLater = new Date(Date.now() + 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const incidents: TransportIncident[] = [
       {
@@ -299,21 +283,18 @@ test.group('TransportService - getActiveIncidents', () => {
 
     const now = new Date()
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const oneHourLater = new Date(Date.now() + 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const incidents: TransportIncident[] = [
       {
@@ -338,35 +319,30 @@ test.group('TransportService - getActiveIncidents', () => {
 
     const now = new Date()
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     // Période passée
     const threeHoursAgo = new Date(Date.now() - 3 * 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     // Période actuelle
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const oneHourLater = new Date(Date.now() + 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const incidents: TransportIncident[] = [
       {
@@ -404,21 +380,18 @@ test.group('TransportService - getActiveIncidents', () => {
 
     const now = new Date()
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const oneHourLater = new Date(Date.now() + 60 * 60 * 1000)
       .toLocaleString('sv-SE', { timeZone: 'Europe/Paris' })
-      .replace(/[-:\s]/g, '')
-      .replace('T', '')
-      .substring(0, 15)
+      .replace(/[-:]/g, '')
+      .replace(' ', 'T')
 
     const incidents: TransportIncident[] = [
       {
