@@ -26,6 +26,10 @@ export class TransportService {
       timezone: 'Europe/Paris',
     })
 
+    let skippedInactive = 0
+    let skippedNoImpactedSections = 0
+    let skippedNotTargetLine = 0
+
     const filteredIncidents = incidents.filter((incident) => {
       // Vérification 1 : L'incident est-il actif en ce moment ?
       const isActive = incident.applicationPeriods.some(
@@ -33,12 +37,7 @@ export class TransportService {
       )
 
       if (!isActive) {
-        logger.debug('Incident not active', {
-          incidentId: incident.id,
-          title: incident.title,
-          now,
-          applicationPeriods: incident.applicationPeriods,
-        })
+        skippedInactive++
         return false
       }
 
@@ -47,11 +46,7 @@ export class TransportService {
 
       // Cas 1: impactedSections est absent ou vide
       if (!incident.impactedSections || incident.impactedSections.length === 0) {
-        logger.warn('Incident has no impactedSections', {
-          incidentId: incident.id,
-          title: incident.title,
-          severity: incident.severity,
-        })
+        skippedNoImpactedSections++
         return false
       }
 
@@ -61,12 +56,7 @@ export class TransportService {
       )
 
       if (!affectsMyLine) {
-        logger.debug('Incident does not affect target lines', {
-          incidentId: incident.id,
-          title: incident.title,
-          impactedLineIds: incident.impactedSections.map((s) => s.lineId),
-          targetLineIds,
-        })
+        skippedNotTargetLine++
       } else {
         logger.info('Active incident found affecting target lines', {
           incidentId: incident.id,
@@ -80,9 +70,14 @@ export class TransportService {
       return affectsMyLine
     })
 
-    logger.info('Incidents filtered', {
-      original: incidents.length,
-      filtered: filteredIncidents.length,
+    logger.info('Incidents filtered summary', {
+      totalInput: incidents.length,
+      kept: filteredIncidents.length,
+      skipped: {
+        inactive: skippedInactive,
+        noImpactedSections: skippedNoImpactedSections,
+        notTargetLine: skippedNotTargetLine,
+      },
       targetLineIds,
     })
 
